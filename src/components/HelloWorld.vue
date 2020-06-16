@@ -4,10 +4,14 @@
   <div id="inputbox">
     <el-input placeholder="Please input your name" v-model="input"></el-input>
   </div>
+  <div  v-bind:key="game.id"  v-for="game in list" >
+    <p>{{ game.name }}</p>
+  </div>
   </div>
 </template>
-
+  
 <script>
+
 export default {
   name: 'HelloWorld',
   props: {
@@ -15,8 +19,11 @@ export default {
   },
 data(){
     return{    text: "hello",
-    input: ""
-  }}
+    input: "",
+
+    list: null
+  }}, 
+
 }
 </script>
 
