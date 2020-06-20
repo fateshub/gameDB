@@ -1,30 +1,33 @@
 <template>
   <div class="main">
-    <p>{{ text }} : {{input}}</p>
-  <div id="inputbox">
-    <el-input placeholder="Please input your name" v-model="input"></el-input>
-  </div>
-  <div  v-bind:key="game.id"  v-for="game in list" >
+  <el-row>
+  <div v-bind:key="game.id"  v-for="game in list" >
+    <el-col :span="6"><div>
+      <el-popover  placement="bottom"
+    title="Score"
+    width="200"
+    trigger="click"
+    >
     <div>
-  <el-button type="text" @click="gamestats(game.id)"> {{ game.name }} </el-button>
-  <p v-if="game.id == score.id">Score: {{score.rating}}</p>
-    </div>
+     <p v-if="game.id == score.id & score.rating > 4" class="high-score"  > {{score.rating}}</p>
+         <p v-else-if="game.id == score.id & score.rating <= 4" class="low-score"  > {{score.rating}}</p>
+ </div>
+  <el-button slot="reference" id="gamename" type="text" @click="gamestats(game.id)"> {{ game.name }} </el-button>
+ 
+  </el-popover>
+    </div></el-col>
   </div>
-          <el-button @click="gamedb">Click Me</el-button>
-
+ </el-row>
   </div>
 </template>
   
 <script>
 const axios = require('axios');
 export default {
-  name: 'HelloWorld',
-  props: {
-    msg: String
-  },
+  name: 'TopGames',
+  
 data(){
-    return{    text: "hello",
-    input: "",
+    return{    
 
     list: "",
     score: ""
@@ -48,7 +51,10 @@ data(){
       const api = await axios.get('https://rawg-video-games-database.p.rapidapi.com/games/'+gid, config)
       this.score = api.data;
     }
-  }
+  },
+   beforeMount(){
+     this.gamedb()
+   }
 
 }
     
@@ -58,6 +64,7 @@ data(){
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+ 
 h3 {
   margin: 40px 0 0;
 }
@@ -76,5 +83,17 @@ a {
 max-width: 20%;
 min-width: 10rem;
 margin: 0 auto;
+}
+
+#gamename{
+  margin-right: 0%;
+}
+
+
+.high-score{
+  color: #42b983;
+}
+.low-score{
+  color: red;
 }
 </style>

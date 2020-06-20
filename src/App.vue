@@ -1,25 +1,42 @@
 <template>
   <div id="app">
-        <transition name="el-fade-in-linear" >
+  <el-tabs v-model="activeName"  @tab-click="this.$refs.gamedb()">
+    <el-tab-pane label="Top Games" name="first">  
+       <TopGames />
+    </el-tab-pane>
+     <el-tab-pane label="Search" name="second">  
+       <SearchGame />
+    </el-tab-pane>
+         <el-tab-pane>  
+<span slot="label">
+ <el-avatar :size="40" src="./assets/logo.png" :fit="cover"> </el-avatar>
+</span>
+                  </el-tab-pane>
 
-    <img v-show="show" class="transition-box" alt="Vue logo" src="./assets/logo.png">
-        </transition>
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-        <el-button @click="show = !show">Click Me</el-button>
+  </el-tabs>         
+
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import TopGames from './components/TopGames.vue'
+import SearchGame from './components/SearchGame.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    TopGames,
+    SearchGame
   },
   data: () => ({
       show: true
-    })
+    }),
+    methods: {
+      handleClick(tab, event) {
+        console.log(tab, event);
+        this.$emit('myevent')
+      }
+    }
 }
 </script>
 
@@ -31,8 +48,11 @@ font-family: 'Montserrat', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-  background-color: rgb(10, 27, 31);
+  color: black;
+  
+  margin: auto;
+
 }
+
+
 </style>
